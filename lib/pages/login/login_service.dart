@@ -9,11 +9,10 @@ class LoginService {
     final responde = await http.post(url,
         body: json.encode(
             {"email": email, "password": senha, "returnSecureToken": true}));
-    print(responde.body);
     if(responde.statusCode == 200){
-      return true;
+      return json.decode(responde.body);
     }else{
-      return false;
+      return null;
     }
   }
 }

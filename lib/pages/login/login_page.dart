@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:club_do_livro/pages/cadasto/singup_page.dart';
+import 'package:club_do_livro/pages/home/home_page.dart';
 import 'package:club_do_livro/pages/login/login_service.dart';
 import 'package:club_do_livro/pages/perfil/perfil_page.dart';
 import 'package:club_do_livro/widgets/custom_button.dart';
@@ -14,6 +16,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
 
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   final _emailController = TextEditingController();
   final _senhaController = TextEditingController();
@@ -92,10 +95,18 @@ class _LoginPageState extends State<LoginPage> {
       setState(()=> _isLoading = true);
       final response = await LoginService().login(_emailController.text, _senhaController.text);
       print(response);
-      if(response) {
-        Navigator.push(context,
-          MaterialPageRoute(builder: (context) => PerfilPage())
-        );
+      if(response != null) {
+        final user = await firestore.collection("users").doc(response["localId"]).get();
+        if(user.exists){
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => HomePage(userId: response["localId"],))
+          );
+        }else{
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => PerfilPage(userId: response["localId"],))
+          );
+        }
+
       }else{
         ScaffoldMessenger.of(context).showSnackBar(snack("Email ou Senha incorretos", Colors.red, 1));
       }
