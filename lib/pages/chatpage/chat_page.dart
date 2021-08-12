@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 
 class ChatPage extends StatefulWidget {
 
-  final String? userId;
-  final String? chatRoomID;
+  final String userId;
+  final String chatRoomID;
   final String userName;
 
   ChatPage({this.userId, this.chatRoomID, this.userName = ""});
@@ -24,12 +24,24 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.deepOrange,
         title:  Text(widget.userName),
+        centerTitle: true,
       ),
       body: Stack(
         children: <Widget>[
           Container(
-            color: Colors.black87,
+            height: double.infinity,
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  colors: [
+                    Colors.deepOrange,
+                    Colors.yellow,
+                  ],
+                )
+            ),
           ),
           Column(
             children: <Widget>[
@@ -46,7 +58,7 @@ class _ChatPageState extends State<ChatPage> {
                         );
                       default:
                         List<DocumentSnapshot> documents =
-                        snapshot.data!.docs.reversed.toList();
+                        snapshot.data.docs.reversed.toList();
 
                         return ListView.builder(
                           itemCount: documents.length,

@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 class PerfilPage extends StatefulWidget {
 
-  final String? userId;
+  final String userId;
 
   PerfilPage({this.userId});
 
@@ -153,9 +153,9 @@ class _PerfilPageState extends State<PerfilPage> {
   }
 
   void _saveUser() async {
-    if (_formKey.currentState!.validate()) {
+    if (_formKey.currentState.validate()) {
 
-      _formKey.currentState!.save();
+      _formKey.currentState.save();
 
       FirebaseFirestore.instance.collection("users").doc(widget.userId).update({
         "ativo": true,
@@ -175,11 +175,11 @@ class _PerfilPageState extends State<PerfilPage> {
 
     final user = await firestore.collection("users").doc(widget.userId).get();
     if(user.exists){
-      _nomeController.text = user.data()?["nome"];
-      _sobrenomeController.text = user.data()?["sobrenome"];
-      _idadeController.text = user.data()?["idade"];
+      _nomeController.text = user.data()["nome"];
+      _sobrenomeController.text = user.data()["sobrenome"];
+      _idadeController.text = user.data()["idade"];
       setState(() {
-        _categories = user.data()?["categorias"];
+        _categories = user.data()["categorias"];
       });
     }else{
       await FirebaseFirestore.instance.collection("users").doc(widget.userId).set({

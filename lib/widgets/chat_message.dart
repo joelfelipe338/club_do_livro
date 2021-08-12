@@ -4,7 +4,7 @@ import 'package:flutter/rendering.dart';
 
 class ChatMessage extends StatelessWidget {
   final Map<String, dynamic> data;
-  final String? userId;
+  final String userId;
   ChatMessage(this.data, this.userId);
 
   @override
@@ -19,7 +19,7 @@ class ChatMessage extends StatelessWidget {
       children: <Widget>[
         Card(
             elevation: 1,
-            color: Colors.black38,
+            color: Colors.deepOrange,
             shape: RoundedRectangleBorder(
                 borderRadius:BorderRadius.only(
                     topLeft: Radius.circular(10.0),
@@ -62,7 +62,7 @@ class ChatMessage extends StatelessWidget {
                         child: Row(
                           children: [
                             Text(data["hours"] ?? "12:12",
-                              style: TextStyle(color:Colors.grey, fontSize: 13),
+                              style: TextStyle(color:Colors.black54, fontSize: 13),
                             )
                           ],
                         ))

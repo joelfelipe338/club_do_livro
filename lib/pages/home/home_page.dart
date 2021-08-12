@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class HomePage extends StatefulWidget {
 
 
-  final String? userId;
+  final String userId;
 
   HomePage({this.userId});
 
@@ -28,27 +28,36 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: ListView.builder(
-        itemCount: _users.length,
-        itemBuilder: (context, index){
-          return Container(
-            padding: const EdgeInsets.all(2.0),
-            child: InkWell(
-              onTap: () {
-                _createChatRoom(_users[index]);
-              },
-              child: Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Text(_users[index]["nome"]),
+    return WillPopScope(
+      onWillPop: (){
+        return null;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          leading: Container(),
+          title: Text("Listagem"),
+          centerTitle: true,
+        ),
+        body: ListView.builder(
+          itemCount: _users.length,
+          itemBuilder: (context, index){
+            return Container(
+              padding: const EdgeInsets.all(2.0),
+              child: InkWell(
+                onTap: () {
+                  _createChatRoom(_users[index]);
+                },
+                child: Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Text(_users[index]["nome"]),
+                  ),
                 ),
               ),
-            ),
-          );
-        },
-      )
+            );
+          },
+        )
+      ),
     );
   }
 
@@ -69,8 +78,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  String _getChatRoom(String? a, String? b){
-    if(a!.substring(0,1).codeUnitAt(0) > b!.substring(0,1).codeUnitAt(0)) {
+  String _getChatRoom(String a, String b){
+    if(a.substring(0,1).codeUnitAt(0) > b.substring(0,1).codeUnitAt(0)) {
       return "$b\_$a";
     }else{
       return "$a\_$b";

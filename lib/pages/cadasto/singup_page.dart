@@ -51,7 +51,7 @@ class _SignupPageState extends State<SignupPage> {
                     CustomInput(controller: _senhaController,name: "Senha",icon: Icons.vpn_key,obscure: true,validacao: (value){
                       if(value != _resenhaController.text ){
                         return "senhas não coincidem";
-                      }else if(value!.isEmpty){
+                      }else if(value.isEmpty){
                         return "Campo obrigatorio";
                       }else{
                         return null;
@@ -60,7 +60,7 @@ class _SignupPageState extends State<SignupPage> {
                     CustomInput(controller: _resenhaController,name: "Confirme a senha",icon: Icons.vpn_key,obscure: true,validacao: (value){
                       if(value != _senhaController.text ){
                         return "senhas não coincidem";
-                      }else if(value!.isEmpty){
+                      }else if(value.isEmpty){
                         return "Campo obrigatorio";
                       }else{
                         return null;
@@ -87,8 +87,8 @@ class _SignupPageState extends State<SignupPage> {
   }
 
   _signup() async{
-    if(_formKey.currentState!.validate()){
-      _formKey.currentState!.save();
+    if(_formKey.currentState.validate()){
+      _formKey.currentState.save();
       setState(()=> _isLoading = true);
       final response = await SignUpService().signUp(_emailController.text, _senhaController.text);
       print(response);
