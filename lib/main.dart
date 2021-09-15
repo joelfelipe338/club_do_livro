@@ -12,7 +12,12 @@ void main() async {
     theme: ThemeData(
       unselectedWidgetColor: Colors.white, // <-- your color
     ),
-    home: LoginPage(),
+    initialRoute: '/',
+    routes: {
+
+      '/': (context) => LoginPage(),
+
+    },
   ));
 
 }

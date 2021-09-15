@@ -22,6 +22,7 @@ class _PerfilPageState extends State<PerfilPage> {
   final _nomeController = TextEditingController();
   final _sobrenomeController = TextEditingController();
   final _idadeController = TextEditingController();
+  bool newUser = true;
   List _categories = [
     {
       "nome": "Fantasia",
@@ -84,14 +85,14 @@ class _PerfilPageState extends State<PerfilPage> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: (){
-        return Future.value(false);
+        return Future.value(!newUser);
       },
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.deepOrange,
           title: Text("Perfil"),
           centerTitle: true,
-          leading: Container(),
+          leading: newUser ? Container() : null,
         ),
         body: Stack(
           children: [
@@ -109,39 +110,42 @@ class _PerfilPageState extends State<PerfilPage> {
               ),
             ),
             Center(
-              child: Form(
-                key: _formKey,
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CustomInput(controller: _nomeController,name: "Nome",icon: Icons.person,),
-                      CustomInput(controller: _sobrenomeController,name: "Sobrenome",icon: Icons.person,),
-                      CustomInput(controller: _idadeController,name: "Idade",icon: Icons.person),
-                      SizedBox(height: 20,),
-                      Text("Gêneros preferidos", style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),),
-                      Expanded(
-                        child: GridView.count(
-                          crossAxisCount: 2,
-                          childAspectRatio: 5,
-                          children: List.generate(_categories.length, (index) {
-                            return Center(
-                              child: CheckboxListTile(
-                                title: Text(_categories[index]["nome"], style: TextStyle(color: Colors.white, fontSize: 14),),
-                                value: _categories[index]["ativo"],
-                                activeColor: Colors.deepOrange,
-                                onChanged: (value){
-                                  setState(() {
-                                    _categories[index]["ativo"] = value;
-                                  });
-                              },)
-                            );
-                          }),
+              child: SingleChildScrollView(
+                child: Form(
+                  key: _formKey,
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CustomInput(controller: _nomeController,name: "Nome",icon: Icons.person,),
+                        CustomInput(controller: _sobrenomeController,name: "Sobrenome",icon: Icons.person,),
+                        CustomInput(controller: _idadeController,name: "Idade",icon: Icons.person),
+                        SizedBox(height: 20,),
+                        Text("Gêneros preferidos", style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),),
+                        Container(
+                          height: 220,
+                          child: GridView.count(
+                            crossAxisCount: 2,
+                            childAspectRatio: 5,
+                            children: List.generate(_categories.length, (index) {
+                              return Center(
+                                  child: CheckboxListTile(
+                                    title: Text(_categories[index]["nome"], style: TextStyle(color: Colors.white, fontSize: 14),),
+                                    value: _categories[index]["ativo"],
+                                    activeColor: Colors.deepOrange,
+                                    onChanged: (value){
+                                      setState(() {
+                                        _categories[index]["ativo"] = value;
+                                      });
+                                    },)
+                              );
+                            }),
+                          ),
                         ),
-                      ),
-                      CustomButton(Colors.deepOrange, Colors.white, _saveUser,Text("Salvar dados")),
-                  ],
+                        CustomButton(Colors.deepOrange, Colors.white, _saveUser,Text("Salvar dados")),
+                    ],
+                    ),
                   ),
                 ),
               ),
@@ -175,6 +179,9 @@ class _PerfilPageState extends State<PerfilPage> {
 
     final user = await firestore.collection("users").doc(widget.userId).get();
     if(user.exists){
+      setState(() {
+        newUser = false;
+      });
       _nomeController.text = user.data()["nome"];
       _sobrenomeController.text = user.data()["sobrenome"];
       _idadeController.text = user.data()["idade"];

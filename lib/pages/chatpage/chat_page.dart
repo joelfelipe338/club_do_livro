@@ -98,10 +98,12 @@ class _ChatPageState extends State<ChatPage> {
       "time" : DateTime.now().millisecondsSinceEpoch,
       "hours": hora_atual,
 
-    }).then((value) async{
-      var t = await value.parent.get();
-      print("sss");
-      print(t.docs.length);
+    });
+
+    firestore.collection("chatRooms").doc(widget.chatRoomID).update({
+      "ultima_mensagem": message,
+      "horario_ultima_mensagem": hora_atual,
+      "time" : DateTime.now().millisecondsSinceEpoch,
     });
   }
 

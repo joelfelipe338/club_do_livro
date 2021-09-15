@@ -113,7 +113,9 @@ class _LoginPageState extends State<LoginPage> {
         final user = await firestore.collection("users").doc(response["localId"]).get();
         if(user.exists){
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => HomePage(userId: response["localId"],))
+              MaterialPageRoute(
+                  builder: (context) => HomePage(userId: response["localId"],)
+              )
           );
         }else{
           Navigator.push(context,

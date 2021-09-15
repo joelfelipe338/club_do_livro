@@ -39,44 +39,46 @@ class _SignupPageState extends State<SignupPage> {
             ),
           ),
           Center(
-            child: Form(
-              key: _formKey,
-              child: Padding(
-                padding: const EdgeInsets.all(40.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("Cadastro", style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),),
-                    CustomInput(controller: _emailController,name: "E-mail",icon: Icons.email_outlined,),
-                    CustomInput(controller: _senhaController,name: "Senha",icon: Icons.vpn_key,obscure: true,validacao: (value){
-                      if(value != _resenhaController.text ){
-                        return "senhas não coincidem";
-                      }else if(value.isEmpty){
-                        return "Campo obrigatorio";
-                      }else{
-                        return null;
-                      }
-                    }),
-                    CustomInput(controller: _resenhaController,name: "Confirme a senha",icon: Icons.vpn_key,obscure: true,validacao: (value){
-                      if(value != _senhaController.text ){
-                        return "senhas não coincidem";
-                      }else if(value.isEmpty){
-                        return "Campo obrigatorio";
-                      }else{
-                        return null;
-                      }
-                    },),
-                    SizedBox(height: 20,),
-                    CustomButton(Colors.white, Colors.deepOrange,_signup,
-                        _isLoading ? SizedBox(
-                      height: 14.0,
-                      width: 14.0,
-                      child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.deepOrange),
-                      ),
-                    ):Text("Cadastra-se"),),
+            child: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Padding(
+                  padding: const EdgeInsets.all(40.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Cadastro", style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),),
+                      CustomInput(controller: _emailController,name: "E-mail",icon: Icons.email_outlined,),
+                      CustomInput(controller: _senhaController,name: "Senha",icon: Icons.vpn_key,obscure: true,validacao: (value){
+                        if(value != _resenhaController.text ){
+                          return "senhas não coincidem";
+                        }else if(value.isEmpty){
+                          return "Campo obrigatorio";
+                        }else{
+                          return null;
+                        }
+                      }),
+                      CustomInput(controller: _resenhaController,name: "Confirme a senha",icon: Icons.vpn_key,obscure: true,validacao: (value){
+                        if(value != _senhaController.text ){
+                          return "senhas não coincidem";
+                        }else if(value.isEmpty){
+                          return "Campo obrigatorio";
+                        }else{
+                          return null;
+                        }
+                      },),
+                      SizedBox(height: 20,),
+                      CustomButton(Colors.white, Colors.deepOrange,_signup,
+                          _isLoading ? SizedBox(
+                        height: 14.0,
+                        width: 14.0,
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(Colors.deepOrange),
+                        ),
+                      ):Text("Cadastra-se"),),
 
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
